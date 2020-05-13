@@ -1,0 +1,15 @@
+{
+  "name": "blog",
+  "version": "0.0.1",
+  "description": "Vinicius Teixeira's Technical Blog",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "author": "Vinicius Teixeira <vinicius0026@gmail.com>",
+  "devDependencies": {
+    "@vuepress/theme-blog": "^2.2.0",
+    "vuepress": "^1.5.0"
+  }
+}
