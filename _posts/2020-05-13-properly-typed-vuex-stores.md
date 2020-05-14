@@ -17,13 +17,13 @@ Vue.js calls itself "The Progressive JavaScript Framework", meaning by that that
 
 One of the common patterns mid-sized to large applications need is centralized state management. Whenever your Vue app needs that, the no-brainer choice is [Vuex](https://vuex.vuejs.org/), Vue's own implementation of "Statement Management Pattern".
 
-When apps start to grow beyond mid-size, TypeScript start to be more and more valuable to manage the app complexity.
+When apps start to grow beyond mid-size, TypeScript start to be more and more valuable to manage complexity.
 
-This article discusses ways of putting all this together, to have a solid base for a large application using Vue, Vuex and TypeScript.
+This article discusses ways of putting all this together, to have a solid base for a large application using Vue, Vuex, and TypeScript.
 
 ## Default Setup
 
-Thanks to the amazing [`vue-cli`](https://cli.vuejs.org/) tool, it is very easy to start a Vue + Vuex + TypeScript project.
+Thanks to the fantastic [`vue-cli`](https://cli.vuejs.org/) tool, it is straightforward to start a Vue + Vuex + TypeScript project.
 
 After installing `vue-cli`, just run `vue create <project name>`, answer a few questions and you will be up and running. Make sure to select **Manually select features** in the **Please pick a preset** stage and check `TypeScript` and `Vuex`.
 
@@ -48,7 +48,7 @@ export default new Vuex.Store({
 
 For large-sized app, we should break our store into modules to make it more manageable. Let's create an `auth` module, where we will keep track of the authenticated user in our app.
 
-First, create a `modules` directory under `store` and create a `auth.ts` file inside of it.
+First, create a `modules` directory under `store` and create an `auth.ts` file inside of it.
 
 ```shell
 # pwd is the root of the generated app
@@ -103,7 +103,7 @@ export default {
 }
 ```
 
-Here we are defining a vey simple `User` interface, with just a name, a `AuthState` interface to use as the type for our store's state, and a pair of getter and a mutation to get and set the user.
+Here we are defining simplistic `User` interface, with just a name; an `AuthState` interface to use as the type for our store's state; and a pair of getter and a mutation to get and set the user.
 
 We can now register this module in the root store:
 
@@ -152,7 +152,7 @@ export default Vue.extend({
 </script>
 ```
 
-Here we have a couple of options when it comes to accessing our store from a component. We can either use the `$store` accessor in the Vue component object or we can use Vuex helpers such as `mapGetters` and `mapMutations`. Let's try both.
+Here we have a couple of options when it comes to accessing our store from a component. We can either use the `$store` accessor in the Vue component object or use Vuex helpers such as `mapGetters` and `mapMutations`. Let's try both.
 
 Using `this.$store` is pretty straightforward:
 
@@ -201,23 +201,23 @@ But neither is a great experience with regards to type checking. Although we hav
 
 ![this.$store type hint](../static/images/properly-typed-vuex-stores/this-store-type-hints.png)
 
-And in fact they can lead to a bad state to be committed to the store:
+And in fact, they can lead to a bad state to be committed to the store:
 
 ![store in a bad state](../static/images/properly-typed-vuex-stores/store-in-a-bad-state.png)
 
-But there is a Better Way™
+But there is a Better Way™.
 
 ## A Better Way™
 
-In order to have our store functions properly type-checked, we will use [`vuex-typex`](https://github.com/mrcrowl/vuex-typex), a nice but oddly still little used library.
+To have our store functions properly type-checked, we will use [`vuex-typex`](https://github.com/mrcrowl/vuex-typex), a nice but oddly still little used library.
 
 ```
 $ npm install -S vuex-typex
 ```
 
-We will have to write our store in a slightly different way, but it will payoff by enabling type-checking across our whole app.
+We will have to write our store in a slightly different way, but it will pay off by enabling type-checking across our whole app.
 
-First of all, we will have to create a new file, where we will declare our RootState interface and we will create our `storeBuilder` object from `vuex-typex`, based on our `RootState`.
+First of all, we will have to create a new file, where we will declare our RootState interface, and we will create our `storeBuilder` object from `vuex-typex`, based on our `RootState`.
 
 ```typescript
 // src/store/RootState.ts
@@ -266,9 +266,9 @@ export const mutations = {
 }
 ```
 
-There's a lot going on here. First, we have changed our `AuthState` declaration from a typescript `interface` to a `class`. Then, we are using this class to instantiate a module builder, that we call just `b` for ease of access. Notice how we are passing the `AuthState` as a type paremeter to the `storeBuilder.module` call, and also using it to instantiate our initial state, by calling `new AuthState()`.
+There's a lot going on here. First, we have changed our `AuthState` declaration from a typescript `interface` to a `class`. Then, we are using this class to instantiate a module builder that we call just `b` for ease of access. Notice how we are passing the `AuthState` as a type parameter to the `storeBuilder.module` call, and also using it to instantiate our initial state, by calling `new AuthState()`.
 
-Using the module builder, we can now declare our getter and our mutation. We use `b.read` to declare getters and `b.commit` to call mutations. Instead of exporting a default object with the state, getters, mutations and actions, we individually export the state, getters and mutations.
+Using the module builder, we can now declare our getter and our mutation. We use `b.read` to declare getters and `b.commit` to call mutations. Instead of exporting a default object with the state, getters, mutations, and actions, we individually export the state, getters, and mutations.
 
 Now we need to change the store's index file to use `vuex-typex`:
 
@@ -284,7 +284,7 @@ Vue.use(Vuex)
 export default storeBuilder.vuexStore()
 ```
 
-It actually got much simpler than before. One caveat here is that we have to make sure the modules are evaluated before we import the `storeBuilder` from the `RootState` file. We achieve that by an anonymous import (line 4 in the code above).
+It got actually simpler than before. One caveat here is that we have to make sure the modules are evaluated before we import the `storeBuilder` from the `RootState` file. We achieve that by an anonymous import (line 4 in the code above).
 
 We now have to update the component's code. Instead of using `this.$store` or `mapMutations`, we are going to import the `auth` store module directly.
 
@@ -358,11 +358,11 @@ async function fakeUserLoginService(username: string, password: string): Promise
 }
 ```
 
-Here we declare a `login` action, that, as any other Vuex action, takes the `context` as first argument. In this case, we use a special type for the context, to be able to access, if needed, the current module state or global state inside the action.
+Here we declare a `login` action that, like any other Vuex action, takes the `context` as the first argument. In this case, we use a special type for the context to be able to access, if needed, the current module state or global state inside the action.
 
 The second parameter to the `login` action is whatever we need to perform this action. Here we are using an object to pass in a `username` and a `password`, but it can be anything.
 
-We defined a fake user service to represent the async call that would eventually return the user if the login is successful and then we are calling the `setUser` mutation.
+We defined a fake user service to represent the async call that would eventually return the user if the login is successful, and then we are calling the `setUser` mutation.
 
 To wire this action up to the store, we use the module builder `dispatch` method (`b.dispatch`).
 
@@ -395,8 +395,8 @@ We now have a fully type-checked store!
 
 ## Conclusion
 
-`vue-cli` provides a very easy way to get up and running with a standard Vue application layout. But, unfortunately, Vuex doesn't have full support for TypeScript out of the box.
+`vue-cli` provides an effortless way to get up and running with a standard Vue application layout. But, unfortunately, Vuex doesn't have full support for TypeScript out of the box.
 
 We are getting close to [Vue 3 launch](https://madewithvuejs.com/blog/vue-3-roundup), and it will have native support for TypeScript. [Vuex 4.0](https://github.com/vuejs/vuex/releases/tag/4.0.0-beta.2) (that will be the version compatible with Vue 3) is still in Beta at the time of this writing, and it still doesn't provide full type-checking for Vuex stores declared with TypeScript. We hope to see improvements in type-checking as it gets closer to be released.
 
-Anyway, for all the Vue 2.* applications out there, this article should help getting TypeScript's full power to Vuex Stores.
+Anyway, for all the Vue 2.* applications out there, this article should help to get TypeScript's full power to Vuex Stores.
