@@ -15,7 +15,7 @@ TLDR: In this article, we discuss having fully type-checked Vuex stores. Full co
 
 Vue.js calls itself "The Progressive JavaScript Framework", meaning by that that the entry barrier to start using it is very low, but as one's needs grow, Vue's capabilities and its ecosystem will be there to match those needs.
 
-One of the common patterns mid-sized to large applications need is centralized state management. Whenever your Vue app needs that, the no-brainer choice is [Vuex](https://vuex.vuejs.org/), Vue's own implementation of "Statement Management Pattern".
+One of the common patterns mid-sized to large applications need is centralized state management. Whenever your Vue app needs that, the no-brainer choice is [Vuex](https://vuex.vuejs.org/), Vue's own implementation of "State Management Pattern".
 
 When apps start to grow beyond mid-size, TypeScript start to be more and more valuable to manage complexity.
 
