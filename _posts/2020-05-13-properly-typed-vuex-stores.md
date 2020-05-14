@@ -7,7 +7,7 @@ tags:
   - typescript
 ---
 
-TLDR: In this article, we discuss having fully type-checked Vuex store. Full code is available in [vinicius0026/properly-typed-vuex-stores](https://github.com/vinicius0026/properly-typed-vuex-stores).
+TLDR: In this article, we discuss having fully type-checked Vuex stores. Full code is available in [vinicius0026/properly-typed-vuex-stores](https://github.com/vinicius0026/properly-typed-vuex-stores).
 
 ---
 
@@ -400,3 +400,5 @@ We now have a fully type-checked store!
 We are getting close to [Vue 3 launch](https://madewithvuejs.com/blog/vue-3-roundup), and it will have native support for TypeScript. [Vuex 4.0](https://github.com/vuejs/vuex/releases/tag/4.0.0-beta.2) (that will be the version compatible with Vue 3) is still in Beta at the time of this writing, and it still doesn't provide full type-checking for Vuex stores declared with TypeScript. We hope to see improvements in type-checking as it gets closer to be released.
 
 Anyway, for all the Vue 2.* applications out there, this article should help to get TypeScript's full power to Vuex Stores.
+
+**Shameless Plug**: If you liked this article, I'm currently looking for a job as a Senior Full Stack Engineer. You can check my [Linkedin](https://www.linkedin.com/in/antonioviniciusteixeira/) and drop me a line at _vinicius0026 at gmail dot com_ if you think I'm a good fit to some position at your company. Cheers! :)
