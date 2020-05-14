@@ -11,7 +11,7 @@ tags:
 
 I have recently published the [Properly typed Vuex Stores](https://viniciusteixeira.tk/2020/05/13/properly-typed-vuex-stores/) article and, as I thought of related subjects to talk about in other articles, I've decided to make it a series on Structuring Large Vue.js Applications.
 
-These are the subjects I'm planing on discussing in this series:
+These are the subjects I'm planning on discussing in this series:
 
 - [Properly Typed Vuex Stores](https://viniciusteixeira.tk/2020/05/13/properly-typed-vuex-stores/) _published May 13th, 2020_
 - <ins>Adopting TypeScript in your Vue.js Application in a sane way</ins> _coming soon_

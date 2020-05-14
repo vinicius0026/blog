@@ -1,13 +1,13 @@
 ---
 title: Properly typed Vuex Stores
-date: 2020-05-13
+date: 2020-05-13T22:00:00-3
 author: Vinicius Teixeira
 tags:
   - vue
   - typescript
 ---
 
-TLDR: In this article, we discuss having fully type-checked Vuex stores. Full code is available in [vinicius0026/properly-typed-vuex-stores](https://github.com/vinicius0026/properly-typed-vuex-stores).
+> TLDR: In this article, we discuss having fully type-checked Vuex stores. Full code is available in [vinicius0026/properly-typed-vuex-stores](https://github.com/vinicius0026/properly-typed-vuex-stores).
 
 ---
 
@@ -402,4 +402,4 @@ We are getting close to [Vue 3 launch](https://madewithvuejs.com/blog/vue-3-roun
 
 Anyway, for all the Vue 2.* applications out there, this article should help to get TypeScript's full power to Vuex Stores.
 
-**Shameless Plug**: If you liked this article, I'm currently looking for a job as a Senior Full Stack Engineer. You can check my [Linkedin](https://www.linkedin.com/in/antonioviniciusteixeira/) and drop me a line at _vinicius0026 at gmail dot com_ if you think I'm a good fit for some position at your company. Cheers! :)
+**Shameless Plug**: If you liked this article and there are openings in our company, I'm currently looking for a job as a Senior Full Stack Engineer. You can check my [Linkedin](https://www.linkedin.com/in/antonioviniciusteixeira/) and drop me a line at _vinicius0026 at gmail dot com_ if you think I'm a good fit. Cheers! :)
