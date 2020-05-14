@@ -234,6 +234,7 @@ export const storeBuilder = getStoreBuilder<RootState>()
 Now, let's rewrite our `auth` module to use `vuex-typex`:
 
 ```typescript
+// src/store/modules/auth.ts
 import { storeBuilder, RootState } from "@/store/RootState"
 
 interface User {
@@ -401,4 +402,4 @@ We are getting close to [Vue 3 launch](https://madewithvuejs.com/blog/vue-3-roun
 
 Anyway, for all the Vue 2.* applications out there, this article should help to get TypeScript's full power to Vuex Stores.
 
-**Shameless Plug**: If you liked this article, I'm currently looking for a job as a Senior Full Stack Engineer. You can check my [Linkedin](https://www.linkedin.com/in/antonioviniciusteixeira/) and drop me a line at _vinicius0026 at gmail dot com_ if you think I'm a good fit to some position at your company. Cheers! :)
+**Shameless Plug**: If you liked this article, I'm currently looking for a job as a Senior Full Stack Engineer. You can check my [Linkedin](https://www.linkedin.com/in/antonioviniciusteixeira/) and drop me a line at _vinicius0026 at gmail dot com_ if you think I'm a good fit for some position at your company. Cheers! :)
