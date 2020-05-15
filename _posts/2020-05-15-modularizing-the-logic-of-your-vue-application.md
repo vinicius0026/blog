@@ -148,7 +148,7 @@ export default {
 }
 ```
 
-## Develop the Invoice module with TDD
+## Developing the Invoice module with TDD
 
 When we modify the line items in an invoice, by adding, removing, or changing a line item, we have to recalculate the invoice total. This is critical data in our application - we cannot afford to have the wrong amount calculated for the invoice - so we should test the invoice module thoroughly. With our modular core logic, it will be pretty straightforward to add tests.
 
