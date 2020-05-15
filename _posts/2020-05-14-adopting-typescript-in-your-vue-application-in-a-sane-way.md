@@ -20,11 +20,11 @@ This is the second article in our Structuring Large Vue.js Applications series. 
 
 ---
 
-As a JavaScript application starts to grow, having type hints and type checking helps immensely with code self-documentation and with refactoring. This is not different for Vue.js applications, so if your app is growing and you are seeing a lot of `Cannot read property 'x' of undefined` in your error logs, you probably should consider giving TypeScript a go.
+As a JavaScript application starts to grow, having type hints and type checking helps immensely with code self-documentation and with refactoring. This is not different for Vue.js applications, so if your app is growing and you are seeing a lot of `Cannot read property 'x' of undefined` in your error logs, you probably should consider giving TypeScript a shot.
 
-In the past I have been skeptical about TypeScript benefits, but after adopting in in a fairly large Vue.js codebase, I'm not looking back and will definitely use it even for small/mid apps.
+In the past, I have been skeptical about TypeScript benefits, but after adopting in in a fairly large Vue.js codebase, I'm not looking back and will definitely use it even for small/mid apps.
 
-One of the misconceptions I've seen when it comes to adopting TypeScript is that it means you should use an Object Oriented way of building your app, using classes all around to model your data. That is obviously an option, but it is definitely not mandatory and, in my opinion, it is not the best way to go. In this article we will explore using `interfaces` instead of `classes` as a lean way of adding types to your data. This will make TypeScript easier to adopt and maintain.
+One of the misconceptions I've seen when it comes to adopting TypeScript is that it means you should use an Object-Oriented way of building your app, using classes all around to model your data. That is obviously an option, but it is definitely not mandatory, and, in my opinion, it is not the best way to go. In this article, we will explore using `interfaces` instead of `classes` as a lean way of adding types to your data. This will make TypeScript easier to adopt and maintain.
 
 In a future article, I'll discuss modularizing the application logic, by having a functional core for the application, which will heavily use the TypeScript basis we will lay in this article.
 
@@ -66,7 +66,7 @@ interface Invoice {
 }
 ```
 
-For now, we are using `number` for the `Product.rate` and the `Invoice.totalAmount`. In any application that deals with money, we must avoid using raw numbers (or floats in other languages) and should use a Decimal type. Later in this article we will address this issue by using [`decimal.js`](https://github.com/MikeMcl/decimal.js/) instead of plain numbers for these fields.
+For now, we are using `number` for the `Product.rate` and the `Invoice.totalAmount`. In any application that deals with money, we must avoid using raw numbers (or floats in other languages) and should use a Decimal type. Later in this article, we will address this issue by using [`decimal.js`](https://github.com/MikeMcl/decimal.js/) instead of plain numbers for these fields.
 
 ## Scaffolding the app
 
@@ -78,18 +78,18 @@ At this point, we have a nice base to start developing our app.
 
 ## Adding our type definitions to the app
 
-Now comes the question, where should we put the interfaces we have declared above? To answer this question, we need to define some desired properties we want from whatever solution we adopt. In my opinion, these are the properties we should have for our type definitions:
+Now comes the question, where should we put the interfaces we have declared above? To answer this question, we need to define some properties we want from whatever solution we adopt. In my opinion, these are the properties we should have for our type definitions:
 
 - Easy to access from the whole application
 - Ability to modularize the definitions, grouping related interfaces together
 - Easy to change when needed
 
-After defining these constraints, we can think about things we don't want:
+After defining these constraints, we can think about the things we don't want:
 
 - Having to import the interface declaration in every file we use them
 - Having to fix import paths and references when we move an interface declaration from one place to the other
 
-[TypeScript Namespaces](https://www.typescriptlang.org/docs/handbook/namespaces.html) are a great way to achieve all the desired properties, while avoiding the unwanted behavior. So let's put our interface definitions in a `types` directory under the `src` folder. Inside this directory, we will create as many files as we need to group related types together. In each of these files, we will use the same `Types` namespace.
+[TypeScript Namespaces](https://www.typescriptlang.org/docs/handbook/namespaces.html) are a great way to achieve all the desired properties while avoiding the unwanted behavior. We will put our interface definitions in a `types` directory under the `src` folder. Inside this directory, we will create as many files as we need to group related types together. In each of these files, we will use the same `Types` namespace.
 
 For this example, we will need 3 files. In the first one, we will declare the User related interfaces. For now, we will just have the user interface itself.
 
@@ -103,7 +103,7 @@ namespace Types {
 }
 ```
 
-In the second file, let's put the `Product` related interfaces. For now the only interface we will have here is the `Product` interface itself, but in the future we might add product categories and other related types.
+In the second file, let's put the `Product` related interfaces. For now the only interface we will have here is the `Product` interface itself, but, in the future, we might add product categories and other related types.
 
 ```typescript
 // src/types/product.ts
@@ -115,7 +115,7 @@ namespace Types {
 }
 ```
 
-And finally, in the third file we will declare the `Invoice` related interfaces, which are the `Invoice` itself and the `LineItem` interfaces. The `LineItem` interface doesn't seem to deserve its own file at this point, because it is closely related to the Invoice. We can always move it to its own file later if that makes sense.
+And finally, in the third file, we will declare the `Invoice` related interfaces, which are the `Invoice` itself and the `LineItem` interfaces. The `LineItem` interface doesn't seem to deserve its own file at this point, because it is closely related to the Invoice. We can always move it to its own file later if that makes sense.
 
 ```typescript
 // src/types/invoice.ts
@@ -134,13 +134,13 @@ namespace Types {
 }
 ```
 
-There are a few things to note here. First of all, notice how we have used the same `Types` namespace in all these files. That is possible thanks to [TypeScript's Multi File Namespaces](https://www.typescriptlang.org/docs/handbook/namespaces.html#multi-file-namespaces).
+There are a few things to note here. First of all, notice how we have used the same `Types` namespace in all these files. That is possible thanks to [TypeScript's Multi-File Namespaces](https://www.typescriptlang.org/docs/handbook/namespaces.html#multi-file-namespaces).
 
 Another thing we did was to export the interfaces. This way, all of the declared interfaces will be available under `Types.SomeInterface`.
 
-Note that when using the types declared in a different file, but in the same namespace, we don't need to use the `Types` namespace to access them, as we can see in the `invoice.ts` declarations, where we were able to reference the `Product` and `User` interfaces even though they were declared in separate files.
+Finally, note that when using the types declared in a different file, but in the same namespace, we don't need to use the `Types` namespace to access them, as we can see in the `invoice.ts` declarations, where we were able to reference the `Product` and `User` interfaces even though they were declared in separate files.
 
-## Using the declared types in a component
+## Using the declared types in a Vue component
 
 Let's see how we would use these types in a Vue component now. We will do that by creating a method in the generated `HelloWorld.vue` component and adding some type annotations to it.
 
@@ -183,7 +183,7 @@ In the image above we can see that the TypeScript checker is erring out after we
 
 ![Adding type annotation to the product object](../static/images/adopting-typescript-in-your-vue-application-in-a-sane-way/adding-type-annotation-to-the-product-object.png)
 
-Let's sit back and review what we have just done. With very little effort, we were able to define types for our data in a way that is modular, easy to change and easy to access from anywhere in our application. We used a bit contrived example, but we will expand on that in future articles, when we discuss modularizing our application logic and establishing a clear barrier using services.
+Let's sit back and review what we have just done. With very little effort, we were able to define types for our data in a way that is modular, easy to change, and easy to access from anywhere in our application. We used a bit contrived example, but we will expand on that in future articles, when we discuss modularizing our application logic and establishing a clear boundary using services.
 
 ## Using third-party defined types
 
@@ -195,7 +195,7 @@ First, we need to install the `decimal.js` package:
 $ npm install --S decimal.js
 ```
 
-Now, we will use the `Decimal` type provided by `decimal.js` instead of a raw number in the `src/types/invoice.ts`. If we just replace `number` with `Decimal` in the field type, we will get an error: `Cannot find name 'Decimal'`.
+Now, we will use the `Decimal` class provided by `decimal.js` instead of a raw number in the `src/types/invoice.ts`. If we just replace `number` with `Decimal` in the field type, we will get an error: `Cannot find name 'Decimal'`.
 
 ![Type error when we try to use Decimal directly in our interface definition](../static/images/adopting-typescript-in-your-vue-application-in-a-sane-way/error-using-decimal1.png)
 
@@ -216,7 +216,8 @@ export = _decimal
 
 This will make the `Decimal` type available under a `decimal` namespace. We now need to fix our `invoice` interface.
 
-```typescript{4,11}
+```typescript{5,12}
+// src/types/invoice.ts
 namespace Types {
   export interface LineItem {
     product: Product
