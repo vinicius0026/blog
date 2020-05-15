@@ -26,7 +26,7 @@ In the past I have been skeptical about TypeScript benefits, but after adopting 
 
 One of the misconceptions I've seen when it comes to adopting TypeScript is that it means you should use an Object Oriented way of building your app, using classes all around to model your data. That is obviously an option, but it is definitely not mandatory and, in my opinion, it is not the best way to go. In this article we will explore using `interfaces` instead of `classes` as a lean way of adding types to your data. This will make TypeScript easier to adopt and maintain.
 
-In a future article, I'll show examples of modularizing the application logic, by having a functional core for the application, which will heavily use the TypeScript basis we will lay in this article.
+In a future article, I'll discuss modularizing the application logic, by having a functional core for the application, which will heavily use the TypeScript basis we will lay in this article.
 
 I hope I'm able to deliver on the goal of providing a sane way of using TypeScript in a Vue.js application. If I'm successful, I hope you will give TypeScript a shot in your current or next Vue.js app!
 
@@ -87,11 +87,11 @@ Now comes the question, where should we put the interfaces we have declared abov
 After defining these constraints, we can think about things we don't want:
 
 - Having to import the interface declaration in every file we use them
-- Having to fix import paths and references when we move an interface declaration form one place to the other
+- Having to fix import paths and references when we move an interface declaration from one place to the other
 
 [TypeScript Namespaces](https://www.typescriptlang.org/docs/handbook/namespaces.html) are a great way to achieve all the desired properties, while avoiding the unwanted behavior. So let's put our interface definitions in a `types` directory under the `src` folder. Inside this directory, we will create as many files as we need to group related types together. In each of these files, we will use the same `Types` namespace.
 
-For this example, we will need 3 files. In the first one, we will declare the User related interfaces. For now, we will just have the user interface.
+For this example, we will need 3 files. In the first one, we will declare the User related interfaces. For now, we will just have the user interface itself.
 
 ```typescript
 // src/types/user.ts
@@ -103,7 +103,7 @@ namespace Types {
 }
 ```
 
-In the second file, let's put the `Product` related interfaces. For now the only interface we will have here is the `Product` interface itself, but in the future we might add product categories and other related interfaces.
+In the second file, let's put the `Product` related interfaces. For now the only interface we will have here is the `Product` interface itself, but in the future we might add product categories and other related types.
 
 ```typescript
 // src/types/product.ts
@@ -136,7 +136,7 @@ namespace Types {
 
 There are a few things to note here. First of all, notice how we have used the same `Types` namespace in all these files. That is possible thanks to [TypeScript's Multi File Namespaces](https://www.typescriptlang.org/docs/handbook/namespaces.html#multi-file-namespaces).
 
-Another thing we did was to export the declared interfaces. This way, all of our declared interfaces will be available under `Types.SomeInterface`.
+Another thing we did was to export the interfaces. This way, all of the declared interfaces will be available under `Types.SomeInterface`.
 
 Note that when using the types declared in a different file, but in the same namespace, we don't need to use the `Types` namespace to access them, as we can see in the `invoice.ts` declarations, where we were able to reference the `Product` and `User` interfaces even though they were declared in separate files.
 
@@ -175,11 +175,11 @@ export default class HelloWorld extends Vue {
 }
 ```
 
-This is a bit contrived example, but we were able to access the interfaces declared in our `Types` namespace and we have full type checking on them. We can see that it is working by removing any of the required properties from some of these objects and see how the type checker will raise an exception.
+This is a bit contrived example, but we were able to access the interfaces declared in our `Types` namespace and we have full type checking in the component. We can see that it is working by removing any of the required properties from some of these objects and see how the type checker will raise an exception.
 
 ![Type checker error when a prop is removed](../static/images/adopting-typescript-in-your-vue-application-in-a-sane-way/type-checker-error-in-component.png)
 
-In the image above you can see that the TypeScript checker is erring out after we have removed the `description` property from our `product` object. If we add a type annotation to the `product` object instead of relying just on type inference, we will see the error being reported for it instead of for the returned `invoice` object.
+In the image above we can see that the TypeScript checker is erring out after we have removed the `description` property from our `product` object. If we add a type annotation to the `product` object instead of relying just on type inference, we will see the error being reported for it instead of for the `invoice` object.
 
 ![Adding type annotation to the product object](../static/images/adopting-typescript-in-your-vue-application-in-a-sane-way/adding-type-annotation-to-the-product-object.png)
 
@@ -270,15 +270,15 @@ export default class HelloWorld extends Vue {
 
 Now the type checker verification is successful and we are using appropriate types for our money related fields.
 
-We can appreciate how TypeScript helped us in this last fix, after changing the types for a couple of fields. If we didn't have type checking we could miss some of the old instances still using numbers instead of Decimals. TypeScript will show us the offending code right away.
+We can appreciate how TypeScript helped us in this last fix, after we changed the types for a couple of fields. If we didn't have type checking we would have the risk of missing some of the instances still using numbers instead of Decimals. TypeScript will show us the offending code right away.
 
 ## Wrapping up
 
-We have devised a simple yet powerful way of declaring our types, which will make our codebase safer and more easier to change.
+We have devised a simple yet powerful way of declaring our types, which will make our codebase safer and easier to change.
 
 We included third-party classes to handle specific money related fields, and made TypeScript load those types into a separate namespace.
 
-We were able to refactor the invoice definition to use the `Decimal` type and the type-checker helped us fixing the old objects that were still using `number` instead of `Decimal`.
+We were able to refactor the invoice definition to use the `Decimal` type and the type-checker helped us fix the old objects that were still using `number` instead of `Decimal`.
 
 All this will serve us a long way as we go deeper in the next posts! We will create modules to hold our application logic and will use services to establish a clear application boundary, all while keeping all of our data typed and safe.
 
