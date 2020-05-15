@@ -1,6 +1,6 @@
 ---
 title: Properly typed Vuex Stores
-date: 2020-05-13T22:00:00-3
+date: 2020-05-13T00:00:00-3
 author: Vinicius Teixeira
 tags:
   - vue
