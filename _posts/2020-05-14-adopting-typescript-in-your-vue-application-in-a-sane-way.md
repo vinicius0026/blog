@@ -13,8 +13,8 @@ tags:
 
 This is the second article in our Structuring Large Vue.js Applications series. Here is the full list of released and envisaged articles:
 
-- [Properly typed Vuex Stores]() _published May, 13th 2020_
-- [Adopting TypeScript in your Vue.js Application in a sane way]() _published May 14th, 2020_ - **You are here**
+- [Properly typed Vuex Stores](https://viniciusteixeira.tk/2020/05/14/properly-typed-vuex-stores/) _published May, 13th 2020_
+- [Adopting TypeScript in your Vue.js Application in a sane way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) _published May 14th, 2020_ - **You are here**
 - <ins>Modularizing the logic of your Vue.js Application</ins> _coming soon_
 - <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
 

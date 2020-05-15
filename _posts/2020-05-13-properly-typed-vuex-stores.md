@@ -11,6 +11,15 @@ tags:
 
 ---
 
+This is the first article in our Structuring Large Vue.js Applications series. Here is the full list of released and planned articles:
+
+- [Properly typed Vuex Stores](https://viniciusteixeira.tk/2020/05/14/properly-typed-vuex-stores/) _published May, 13th 2020_ - **You are here**
+- [Adopting TypeScript in your Vue.js Application in a sane way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) _published May 14th, 2020_
+- <ins>Modularizing the logic of your Vue.js Application</ins> _coming soon_
+- <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
+
+---
+
 [Vue.js](https://vuejs.org/) and [TypeScript](https://www.typescriptlang.org/) are two trending topics in front-end development.
 
 Vue.js calls itself "The Progressive JavaScript Framework", meaning by that that the entry barrier to start using it is very low, but as one's needs grow, Vue's capabilities and its ecosystem will be there to match those needs.
