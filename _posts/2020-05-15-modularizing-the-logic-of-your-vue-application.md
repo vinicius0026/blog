@@ -7,7 +7,7 @@ tags:
   - typescript
 ---
 
-> TLDR: In this article we discuss building a functional core for our Vue.js application logic.
+> TLDR: In this article, we discuss building a functional core for our Vue.js application logic.
 
 ---
 
@@ -19,34 +19,33 @@ This is the third article in our Structuring Large Vue.js Applications series. H
 - <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
 ---
 
-As an application grows it is common, unfortunately, to see bad designed components, with a lot of duplicate code across components, with business logic scattered across methods, templates with complex logic embedded and so on. The components become brittle and hard to change and test. This makes the application increasingly hard to evolve, sometimes reaching a point where the developers are eager to start from scratch again, preferring a costly and risky rewrite than the handling the current application state.
+As an application grows, it is, unfortunately, common to see poorly designed components, with a lot of duplicate code, business logic scattered across methods, complex logic embedded in the templates, and so on. The components become large, brittle, and hard to change and test. The application becomes increasingly hard to evolve, sometimes reaching a point where the developers are eager to start from scratch, preferring a costly and risky rewrite than handling the current application state.
 
-It doens't have to be that way. We can and should do better. In this article, we will discuss moving the bulk of the application's business logic into a functional core, that will be easy to reuse, easy to test and to change, and which will lead to smaller and leaner components.
+It doesn't have to be that way. We can and should do better. In this article, we will discuss moving the bulk of the application's business logic into a functional core that will be easy to reuse, easy to test and change, and which will lead to smaller, leaner, and more maintainable components.
 
 We will pick up from where we left in our [previous article](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/), so you might want to check that first if you still haven't.
 
 ## Interfaces and Functional Modules instead of Classes
 
-When we discussed adopting TypeScript in Vue.js applications, we took a somewhat unconventional route. Instead of modeling our data around classes, we have defined very lean interfaces to add type annotation to our data. We have only defined the fields that make up our objects - we have not mentioned methods or any operation over the data yet.
+When we discussed adopting TypeScript in Vue.js applications, we took a somewhat unconventional route. Instead of modeling our data around classes, we have defined very lean interfaces to add type-annotations to our data. We have only used the fields that make up our objects in the interfaces - we have not mentioned methods or any operation over the data yet.
 
-It is not the goal of this article to do a deep debate about Functional vs Object-Oriented programming paradigms. Both have their pros and cons, but I tend to prefer a functional style, because it is easier to follow and to test, in my opinion. Having said that, we are going to use a functional approach to how we build our application logic and we will try to show how it leads to a modular, testable and reusable codebase.
+This article does not aim at doing an in-depth debate about Functional vs. Object-Oriented programming paradigms. Both have pros and cons, but I tend to prefer a functional style, because it is easier to follow and to test, in my opinion. Thus, we will use a functional approach to build our application core, and we will try to show how it leads to a modular, testable, and reusable codebase.
 
-We are going to continue developing our simplified Invoice application that we started on the [previous article](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/).
-
+We will continue developing the simplified Invoice application that we started on the [previous article](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/).
 
 ## Planning the app functionality
 
 Before we jump right into the code, let's talk about what functionalities we need in our application. In a real scenario, we would probably receive the requirements from a task description developed by a product team, or, if working on a side-project that we fully control, we would define that ourselves.
 
-For our simple app, we will need ways to create and manipulate invoices. This will involve adding, removing and changing line items, selecting products and setting rates and quantities. We will also need a way to easily instantiate User and Product objects.
+For our simple app, we will need ways to create and manipulate invoices. This will involve adding, removing, and changing line items, selecting products, and setting rates and quantities. We will also need a way to instantiate User and Product objects easily.
 
-Similarly as we did for the `types` definitions, we want a modular way for building these functionalities.
+As we did for the `types` definitions, we want a modular way of building these functionalities.
 
 ## Building our modules
 
-We will put our modules inside a `modules` directory under `src`, in as many files as it makes sense, grouping related functionality in their own modules.
+We will put our modules inside a `modules` directory under `src`. We will split the functionality into as many files as it is sensible to do, grouping related functionality into single modules.
 
-Let's start with the `User` and `Product` modules, that will be very simple for now.
+Let's start with the `User` and `Product` modules, which will be very simple for now.
 
 ```typescript
 // src/modules/user.ts
@@ -76,13 +75,13 @@ export default {
 }
 ```
 
-These are two very simple and similar modules, but they serve as a container for all the functionality related to users or products we might need down the road. Even though it looks we are repeating code, we should not try to unify the create functions in any way - that would cause coupling between unrelated concepts and would make the code harder to change.
+These two modules are very simple and similar, but they serve as a container for all the functionality related to users or products we might need down the road. Even though it looks that we are repeating code, we should not try to unify these create functions in any way - that would cause coupling between unrelated concepts and would make the code harder to change.
 
-Notice how we have defined default values for all the parameters. This will allow us to call the `create` functions without passing any parameters and still have a valid object of the appropriate type.
+Notice how we have defined default values for all the parameters. This will allow us to call the `create` functions without passing arguments and still have a valid object of the appropriate type.
 
-One thing you might be concerned about the code above is that we are listing all of the fields as individual parameters. We only have a couple of parameters in each of the `create` function, but the number of parameters could grow a lot as we make our models more complex. We will ignore it for now, but we are going to revisit this when we discuss defining a clear application boundary in a future article.
+One thing you might be concerned about the code above is that we are listing all of the fields as individual parameters. We only have a couple of arguments in each of the `create` function, but the number of parameters could grow a lot as we make our models more complex. We will ignore it for now, but we will revisit this when we discuss defining a clear application boundary in a future article.
 
-Even though we have declared the `LineItem` interface in the same file as the `Invoice` interface, for the modules we will use a separate file for clarity. We could group the invoice and the line item modules using a directory, but we will keep it simple and flat for now. You can use any folder structure that suits your particular situation.
+Even though we have declared the `LineItem` interface in the same file as the `Invoice`, we will use a separate file for the Invoice and LineItem modules. We could group the invoice and the line item modules using a directory, but we will keep it simple and flat for now. You can use any folder structure that suits your particular situation.
 
 The `lineItem` module will be pretty simple as well:
 
@@ -105,7 +104,7 @@ export default {
 }
 ```
 
-Let's move on to the Invoice module now. This will be a more complex module, so we are going to stub out the functions before implementing them.
+Let's move on to the Invoice module now. It will be a more complex module, so we are going to stub out the functions before implementing them.
 
 ```typescript
 // src/modules/invoice.ts
@@ -151,7 +150,7 @@ export default {
 
 ## Develop the Invoice module with TDD
 
-When we modify the line items in a invoice, by adding, removing or changing a line item, the invoice total amount has to be recalculated. This is a critical data in our application - we cannot afford to have the wrong total calculated for the invoice - so we should definitely add some tests to the invoice module. With our core logic separated as it is now, it will be very simple to add tests.
+When we modify the line items in an invoice, by adding, removing, or changing a line item, we have to recalculate the invoice total. This is critical data in our application - we cannot afford to have the wrong amount calculated for the invoice - so we should test the invoice module thoroughly. With our modular core logic, it will be pretty straightforward to add tests.
 
 When we scaffolded this app, we didn't add any of the unit test features available, but `vue-cli` makes it very easy to add plugins to existing projects. We will use [jest](https://jestjs.io/) to write our tests, and we can add it to our project by running:
 
@@ -159,7 +158,7 @@ When we scaffolded this app, we didn't add any of the unit test features availab
 $ vue add unit-jest
 ```
 
-This will take care of installing and configuring jest to work in a Vue project. Let's write a few tests to our `invoice.ts` module.
+That will take care of installing and configuring jest to work in a Vue project. Let's write a few tests to our `Invoice` module.
 
 ```typescript
 // tests/unit/modules/invoice.spec.ts
@@ -237,13 +236,15 @@ function testData() {
 }
 ```
 
-These tests are a little bit verbose, but they are easy to follow. We start by making sure that our `create` function in the invoice module returns an empty invoice. Then we move on to test the other functions from our Invoice module. We have added a `testData` function to help creating test data for our unit tests.
+These tests are a little bit lengthy, but they are easy to follow. We start by ensuring that our `create` function in the invoice module returns an empty invoice. Then we move on to test the other parts of our Invoice module. We have added a `testData` function to help creating objects used in the tests.
 
-In a production-grade application, we would add more tests, particularly to cover edge cases, making sure our module would work in every scenario. But for purposes of this article, this is good enough.
+In a production-grade application, we would add more tests, especially to cover edge cases, making sure our module would work in every possible scenario. But for this article, this is good enough.
+
+We should now run these tests:
 
 ![Failing tests](../static/images/modularizing-the-logic-of-your-vue-application/failing-tests.png)
 
-If we run the tests, they will fail because we still haven't implemented our functions yet. Let's do that now.
+As expected, the tests fail because we haven't implemented our functions yet. Let's do that now.
 
 ```typescript
 // src/modules/invoice.ts
@@ -299,7 +300,7 @@ function setLineItems(
 // ... export as before
 ```
 
-We have created 2 helper functions to avoid repeating code. First one was the `calculateTotal` function. It takes the invoice and returns the total amount. It does so by first calculating the sub total for each line item, using a new function we have added to the LineItem module, then summing all the line item totals. Let's see what the `LineItem` module looks like now.
+We have created two helper functions to avoid repeating code. The first one was the `calculateTotal` function. It takes the invoice and returns the total amount. It does so by first calculating the subtotal for each line item, using a new function we have added to the LineItem module, then summing all the line item totals. Let's see what the `LineItem` module looks like now.
 
 ```typescript
 // src/modules/lineItem.ts
@@ -315,9 +316,9 @@ export default {
 }
 ```
 
-The `calculateLineTotal` is very simple, it just multiplies the rate by the quantity. Still, having it in a separate function, makes our code easier to follow and easier to change.
+The `calculateLineTotal` is very simple. It just multiplies the rate by the quantity. Still, having it in a separate function makes our code easier to follow and easier to change.
 
-Back to the invoice module, we can see that the `setLineItem` helper function takes an invoice and a list of line items and then returns an updated invoice, with the given line items and the calculated total amount.
+Back to the invoice module, we can see that the `setLineItem` helper function takes an invoice and a list of line items and then returns an updated invoice with the given line items and the calculated total amount.
 
 With these helper functions in place, implementing our public functions is very simple - they just need to generate the new list of line items (based on the operation) and use the helper functions to return an updated invoice.
 
@@ -355,13 +356,13 @@ export default class HelloWorld extends Vue {
 }
 ```
 
-Again, this is a contrived example, but it already looks better than before. We now have the objects with the appropriate type from the modules' create functions (instead of having just the type inference). In an more realistic scenario, the `user` would probably come from the store as the authenticated user, the product would come from some selector that reads from a product list, the rate and quantity would be set in the UI using inputs and it would be possible to add/remove/update line items directly in the ui. We will build those components in the next article.
+Again, this is a contrived example, but it already looks better than before. We now have the objects with the appropriate type from the modules' create functions (instead of having just the type inference). In a more realistic scenario, the `user` would be the authenticated user; the product would come from some selector that reads from a product list; the rate and quantity would be set in the UI using inputs; and it would be possible to add/remove/update line items directly in the UI. We will build those components in the next article.
 
-# Wrapping up
+## Wrapping up
 
-At this point, we can have a good degree of confidence that our invoice related logic is working. We should probably add some more tests, but we have a very good baseline to develop our invoice application.
+At this point, we can have a fair degree of confidence that our invoice related logic is working. We should probably add some more tests, but we have a great baseline to develop our invoice application.
 
-We have built a solid functional core with our application logic. We are not spreading the business rules across components and, when the time comes to wire this functionality up with the ui, the components will end up being a very thin layer to connect the user actions to our core modules.
+We have built a solid functional core for our application logic. We are not spreading the business rules across components and, when the time comes to wire this functionality up with the UI, the components will end up being a skinny layer to connect the user actions to our core modules.
 
 Let me know what you think of this approach in the comments!
 
