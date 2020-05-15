@@ -45,7 +45,7 @@ As we did for the `types` definitions, we want a modular way of building these f
 
 We will put our modules inside a `modules` directory under `src`. We will split the functionality into as many files as it is sensible to do, grouping related functionality into single modules.
 
-Let's start with the `User` and `Product` modules, which will be very simple for now.
+Let's start with the `User` and `Product` modules:
 
 ```typescript
 // src/modules/user.ts
