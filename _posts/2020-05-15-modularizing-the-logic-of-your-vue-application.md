@@ -7,7 +7,7 @@ tags:
   - typescript
 ---
 
-> TLDR: In this article, we discuss building a functional core for our Vue.js application logic.
+> TLDR: In this article, we discuss building a functional core for our Vue.js application logic. Code available at [vinicius0026/modularizing-logic-in-vue](https://github.com/vinicius0026/modularizing-logic-in-vue)
 
 ---
 
@@ -366,4 +366,4 @@ We have built a solid functional core for our application logic. We are not spre
 
 Let me know what you think of this approach in the comments!
 
-**Shameless Plug**: If you liked this article and there are openings in our company, I'm currently looking for a job as a Senior Full Stack Engineer. You can check my [Linkedin](https://www.linkedin.com/in/antonioviniciusteixeira/) and drop me a line at _vinicius0026 at gmail dot com_ if you think I'm a good fit. Cheers! :)
+**Shameless Plug**: If you liked this article and there are openings in your company, I'm currently looking for a job as a Senior Full Stack Engineer. You can check my [Linkedin](https://www.linkedin.com/in/antonioviniciusteixeira/) and drop me a line at _vinicius0026 at gmail dot com_ if you think I'm a good fit. Cheers! :)
