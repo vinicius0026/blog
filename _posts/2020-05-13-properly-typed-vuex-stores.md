@@ -8,6 +8,8 @@ tags:
 ---
 
 > TLDR: In this article, we discuss having fully type-checked Vuex stores. Full code is available in [vinicius0026/properly-typed-vuex-stores](https://github.com/vinicius0026/properly-typed-vuex-stores).
+>
+> You can also read this on [Medium](https://medium.com/swlh/properly-typed-vuex-stores-427bf4c6a3d1).
 
 ---
 
