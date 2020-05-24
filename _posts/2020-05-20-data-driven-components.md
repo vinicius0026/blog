@@ -7,7 +7,7 @@ tags:
   - typescript
 ---
 
-> TLDR: In this article we discuss building components based on the data definitions. Code available at [vinicius0026/data-driven-components](https://github.com/vinicius0026/data-driven-components)
+> TLDR: In this article, we discuss building components based on the data definitions. Code available at [vinicius0026/data-driven-components](https://github.com/vinicius0026/data-driven-components)
 
 ---
 
@@ -16,49 +16,47 @@ This is the fourth article in our Structuring Large Vue.js Applications series. 
 - [Properly typed Vuex Stores](https://viniciusteixeira.tk/2020/05/14/properly-typed-vuex-stores/) _published May 13, 2020_
 - [Adopting TypeScript in your Vue.js Application in a sane way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) _published May 14, 2020_
 - [Modularizing the logic of your Vue.js Application](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/) _published May 15, 2020_
-- [Data-driven components]() _published May 23, 2020_ - **You are here**
+- [Data-driven components]() _published May 24, 2020_ - **You are here**
 - <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
 ---
 
-In the previous articles, we discussed how to [adopt TypeScript in a lean way]() and how to [modularize the application logic]() in Vue.js applications. But in both articles we barely touched vue components. It's time to change that. In this article we will pick up where we left and will leverage our Type definitions and our modularized logic to build a lean, maintainable and reusable invoice component.
+In the previous articles, we discussed how to [adopt TypeScript in a lean way]() and how to [modularize the application logic]() in Vue.js applications. But in both articles, we barely touched Vue components. It's time to change that. In this article, we will pick up where we left and will leverage our Type definitions and our modularized logic to build a lean, maintainable, and reusable invoice component.
 
-Before we dive in, I want to point out something. As this series deals with structuring large Vue.js applications, one might expect to see some mention to building a Design System. And that is indeed very important, but I'm afraid I don't have much to add to that subject at this moment. So I'll leave a few references to it, but I'll talk about a different subject. You can check this [article](https://www.invisionapp.com/inside-design/guide-to-design-systems/) for an introduction on Design Systems. If you want to formalize your Design System, check out [Storybook](https://storybook.js.org/) (which is primarily targeted at React, but also supports Vue.js) or [Vue Design System](https://github.com/viljamis/vue-design-system).
-
-Now, without further ado, let's get started!
+Let's get started!
 
 ## Sketching the functionality
 
-In our previous articles, we have defined a [simplified data model]() for an invoice application and we have built the [core logic]() for handling operations on an invoice. If you haven't checked these articles yet, now it is the time to do it.
+In our previous articles, we have defined a [simplified data model]() for an invoice application, and we have built the [core logic]() for handling operations on an invoice. If you haven't checked these articles yet, now it is the time to do it.
 
-Now, we are going to build a few components to render and manipulate an invoice.
+Today we are going to build a few components to render and manipulate an invoice.
 
 Below we have a rough mockup of what we want the component to look like:
 
-![](../static/images/data-driven-components/invoice-mockup.png)
+![Invoice mockup](../static/images/data-driven-components/invoice-mockup.png)
 
-Please keep in mind that our goal here is to discuss code structure, so concerns such as UI and UX will be overlooked.
+Please keep in mind that our goal here is to discuss code structure. We will overlook concerns such as UI and UX.
 
 ## Planing the components
 
 So, how do we go about breaking up the requirements into manageable components? And, perhaps more importantly, what will the interface (props, events emitted, slots) of these components look like?
 
-To answer this question, we are going to apply what I'm calling "Data-driven components". From our type definitions, we have the concept of `Product`, `LineItem` and `Invoice`, so we will design our components around these concepts.
+To answer this question, we are going to apply what I'm calling "Data-driven components". From our type definitions, we have the concept of `Product`, `LineItem`, and `Invoice`, so we will design our components around these concepts.
 
-Here is one possible high level breakdown of the components:
+Here is one possible high-level breakdown of the components:
 
 ![Component Breakdown](../static/images/data-driven-components/component-breakdown.png)
 
 The two main components here are the `Invoice` and `LineItem` components. The Invoice component takes an invoice object of type `Types.Invoice` and, whenever this object changes, emits the updated invoice. The same thing happens for the `LineItem` component.
 
-The `AddLineItem` component will create a bare lineItem object internally and pass it to the `EditLineItemModal` component. Whenever the user clicks the ok button in there, the `AddLineItem` component will emit this new line item to the Invoice component.
+The `AddLineItem` component will create a bare line item object internally and pass it to the `EditLineItemModal` component. Whenever the user clicks the ok button in there, the `AddLineItem` component will emit this new line item to the Invoice component.
 
-The `ProductSelector` component will encapsulate the logic for selecting a product and will emit the selected product.
+The `ProductSelector` component will encapsulate the logic for selecting a product and will emit the chosen product.
 
 If we use appropriate names for the props and events emitted, we can use Vue's `v-model` directive to bind data to our components. Let's see how that works in code.
 
 ### Invoice component
 
-We can start by implementing the Invoice component fully, assuming the other components are available. This will generate a wish-list of components, that we will implement one by one.
+We can start by implementing the Invoice component fully, assuming the other parts are available. This approach will generate a wish-list of components that we will implement one by one.
 
 ```vue
 // src/components/Invoice.vue
@@ -121,9 +119,9 @@ export default class Invoice extends Vue {
 </script>
 ```
 
-Our invoice model doesn't currently has the concept of Invoice Number or Invoice Due Date. It would be straightforward to add it to the invoice type and modify the invoice module, but to make this article simpler, we are just hard coding some values there for now.
+Our invoice model doesn't currently have the concept of Invoice Number or Invoice Due Date. It would be straightforward to add it to the invoice type and modify the invoice module, but to make this article simpler, we are just hard coding some values there for now.
 
-Notice how we are taking an `Types.Invoice` prop and are emitting `input` events whenever something changes the invoice. Now our modularized Invoice logic is paying off its price. Look how simple code in our Invoice component is: it just ties the events from the underlying components to your module.
+Notice how we are taking a `Types.Invoice` prop and are emitting `input` events whenever the invoice is changed. Now our modularized Invoice logic is paying off its price. Look how simple the code in our Invoice component is: it just ties the events from the underlying components to the Invoice module.
 
 We are using the `Emit` decorator from `vue-property-decorator`. It will emit the return value of the decorated function, which makes this code really concise. If you are not used to it, it is possible to achieve the same thing by doing:
 
@@ -134,11 +132,11 @@ We are using the `Emit` decorator from `vue-property-decorator`. It will emit th
   }
 ```
 
-Notice also how we are invoking the `LineItem` and `AddLineItem` components, which are not implemented yet. Let's take care of that.
+Notice also how we are invoking the `LineItem` and `AddLineItem` components, that we have not yet implemented. Let's take care of that.
 
 ### AddLineItem component
 
-Let's start with the `AddLineItem` component. In the `Invoice` component, we have defined that the `AddLineItem` component should emit an `add` event whenever a line item is added. Let's see how it looks like in code:
+Let's start with the `AddLineItem` component. In the `Invoice` component, we have defined that the `AddLineItem` component should emit an `add` event whenever a line item is added. This is the component definition:
 
 ```vue
 // src/components/AddLineItem.vue
@@ -187,7 +185,7 @@ export default class AddLineItem extends Vue {
 
 This component is also rather simple. We have a button that will trigger our `EditLineItemModal` component, passing a new LineItem object to it. This new line item object is built in the `newLineItem` method. Notice how here we are using a `Types.Partial<Types.LineItem>` type.
 
-`Types.Partial` is a helper we will add to the `types` folder to allow having incomplete objects of a certain type. In this case, we don't have a product to assign to the LineItem object, that is why we are using a partial. This how the `Types.Partial` helper is defined:
+`Types.Partial` is a helper that we will add to the `types` folder to allow having incomplete objects of a certain type. In this case, we don't have a product to assign to the LineItem object, that is why we are using a partial. This how the `Types.Partial` helper is defined:
 
 ```typescript
 // src/types/utils.ts
@@ -198,7 +196,7 @@ namespace Types {
 }
 ```
 
-A `Partial` object will have the same properties of the passed in type, but all fields can be `undefined` or `null`. This helper should be used with caution, because we cannot know that the properties are present.
+A `Partial` object will have the same properties of the passed in type, but all fields can be `undefined` or `null`. This helper should be used with caution because we cannot know if the properties are present or not.
 
 Let's move on to the `EditLineItemModal` component now.
 
@@ -291,11 +289,11 @@ export default class EditLineItemModal extends Vue {
 </script>
 ```
 
-We are using a `SimpleModal` component here to encapsulate the modal behavior. It is basically the same code as available in [https://vuejs.org/v2/examples/modal.html](https://vuejs.org/v2/examples/modal.html). We are not going to reproduce the modal code here, but it is available at the [repo](https://github.com/vinicius0026/data-driven-components/blob/master/src/components/SimpleModal.vue).
+We are using a `SimpleModal` component here to encapsulate the modal behavior. It is the same code as available in [https://vuejs.org/v2/examples/modal.html](https://vuejs.org/v2/examples/modal.html). We are not going to reproduce the modal code here, but it is available at the [repo](https://github.com/vinicius0026/data-driven-components/blob/master/src/components/SimpleModal.vue).
 
-This component has three fields to define a LineItem: the product field, that is encapsulated in the `ProductSelector` component, and two input fields for the `rate` and `quantity`.
+This component has three fields to define a LineItem: the product field, encapsulated in the `ProductSelector` component, and two input fields for the `rate` and `quantity`.
 
-One thing to notice here is how we are making a local copy of the passed in prop. As we have `Ok` and `Cancel` buttons, we cannot update the prop itself when a field is changed, because the user might hit cancel. So we do a deep copy of the `item` prop into the `localLineItem` object anytime the `item` changes.
+One thing to notice here is how we are making a local copy of the passed-in prop. As we have `Ok` and `Cancel` buttons, we cannot update the prop itself when a field is changed, because the user might hit cancel. So we do a deep copy of the `item` prop into the `localLineItem` object anytime the `item` changes.
 
 Also, as the `rate` is a `Decimal` object, we had to wrap its value in a `getter` and `setter`, so that we can transform it to and from a number, that is what the `input` html element can handle. If you have several places in your application where you need to handle Decimals, you might want to create a `DecimalInput` component that takes Decimals in and emits Decimals, so that you can use `v-model` directly with your Decimal object.
 
@@ -337,7 +335,7 @@ export default class ProductSelector extends Vue {
 </script>
 ```
 
-We are hard-coding the products here to simplify our example, but in an actual application, this component would have the ability to search the products, loading them as needed from an API. The main takeaway here is that we are encapsulating the product selection in its own component, so we can change its internals easily, without affecting the other components that use it. If you need to implement a selector similar to this one, take a look at [Vue Multiselect](https://vue-multiselect.js.org/).
+We are hardcoding the products here to simplify our example. But in an actual application, this component would have the ability to search the products, loading them as needed from an API. The main takeaway here is that we are encapsulating the product selection in a component, so we can easily change its internals, without affecting the other components that use it. If you need to implement a selector similar to this one, take a look at [Vue Multiselect](https://vue-multiselect.js.org/).
 
 We have now completed the components needed to build the `AddLineItem` functionality. Let's move on to the `LineItem` component.
 
@@ -397,11 +395,11 @@ export default class LineItemComp extends Vue {
 
 The `LineItem` component shows the line item details, along with the line item total amount. There are also two buttons, one to edit the current line item and one to remove it from the invoice.
 
-We are reusing the `EditLineItemModal` component we wrote for the `AddLineItem`. We emit a `LineItem` object whenever the item is edited. We also emit a `remove` event when user clicks the `Delete` link. Once again, we are using our modules logic when needed, in this case to calculate the line item total amount.
+We are reusing the `EditLineItemModal` component we wrote for the `AddLineItem`. We emit a `LineItem` object whenever the item is edited. We also emit a `remove` event when the user clicks the `Delete` link. Once again, we are using our module's logic when needed, in this case, to calculate the total amount of the line item.
 
 ## Using the Invoice component
 
-Now our `Invoice` component is fully developed and we can use it in our application. Let's add it to the existing `HelloWorld` component.
+Now our `Invoice` component is fully developed, and we can use it in our application. Let's add it to the existing `HelloWorld` component.
 
 ```vue
 // src/components/HelloWorld.vue
@@ -435,11 +433,11 @@ export default class HelloWorld extends Vue {
 
 Here, we are creating a local invoice, using the Invoice module, and passing it to the Invoice component we just wrote.
 
-The Invoice component is fully usable - we can add, remove and edit line items and the total amount is calculated correctly. In a real application, instead of just tying the Invoice component with a local data invoice object, we would probably link it to a Vuex store that would eventually trigger network requests to send the data to some API. Anyway, the invoice manipulation logic is neatly encapsulated in the component, that delegates the business logic handling to the modules.
+The Invoice component is fully usable - we can add, remove, and edit line items, and the total amount is calculated correctly. In a real application, instead of just tying the Invoice component with a local data invoice object, we would probably link it to a Vuex store that would eventually trigger network requests to send the data to some API. Anyway, we have neatly encapsulated the invoice manipulation logic in the component, which delegates the business logic handling to the modules.
 
 ## Validation
 
-If you are reading closely, you might have noticed that we haven't added validation to our `EditLineItemModal` form. This could lead to a bad state in our application, because this component is taking a `Partial` line item object. Let's fix that now.
+If you are reading closely, you might have noticed that we haven't added validation to our `EditLineItemModal` form. This could lead to a bad state in our application because this component is taking a `Partial` line item object as a prop, and it might as well emit a partial LineItem. Let's fix that now.
 
 ```vue
 <template>
@@ -459,14 +457,14 @@ If you are reading closely, you might have noticed that we haven't added validat
 </script>
 ```
 
-This is a bit naive validation, but is enough for our purposes. Now it is not possible to save a line item if the product or rate are not set or if the quantity is not a number.
+This is a bit naive validation, but it is enough for our purposes. Now it is not possible to save a line item if the product or rate are not set or if the quantity is not a number.
 
-In a real application, we can use more robust validation libraries such as [Vuelidate](https://vuelidate.js.org/) or [Vee Validate](https://logaretm.github.io/vee-validate/).
+In a real application, we should use more robust validation libraries such as [Vuelidate](https://vuelidate.js.org/) or [Vee Validate](https://logaretm.github.io/vee-validate/).
 
 ## Wrapping up
 
-We have developed a few components to create our invoice functionality. We started by defining a rough wireframe for the invoice component and have broke it down into smaller pieces.
+We have developed a few components to create our invoice functionality. We started by defining a rough wireframe for the invoice component and have broken it down into smaller pieces.
 
-We created small and maintainable components that are based on our type definitions. The components, as promised, are a thin layer that wires the user interactions with our core logic. As long as we keep the interface (props/events) untouched, we can change our components freely and the overall functionality should still work.
+We created small and maintainable components that are derived from our type definitions. As promised, the components are a thin layer that wires the user interactions with our core logic. As long as we keep the interface (props/events) untouched, we can change our components freely, and the overall functionality should still work.
 
-Hope you have liked this approach. Let me know your thoughts in the comments (Medium only).
+I hope you have liked this approach. Let me know your thoughts in the comments (Medium only).
