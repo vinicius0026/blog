@@ -1,6 +1,6 @@
 ---
 title: Data-driven components
-date: 2020-05-20T13:13:00-3
+date: 2020-05-25T13:13:00-3
 author: Vinicius Teixeira
 tags:
   - vue
@@ -20,13 +20,13 @@ This is the fourth article in our Structuring Large Vue.js Applications series. 
 - <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
 ---
 
-In the previous articles, we discussed how to [adopt TypeScript in a lean way]() and how to [modularize the application logic]() in Vue.js applications. But in both articles, we barely touched Vue components. It's time to change that. In this article, we will pick up where we left and will leverage our Type definitions and our modularized logic to build a lean, maintainable, and reusable invoice component.
+In the previous articles, we discussed how to [adopt TypeScript in a lean way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) and how to [modularize the application logic](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/) in Vue.js applications. But in both articles, we barely touched Vue components. It's time to change that. In this article, we will pick up where we left and will leverage our Type definitions and our modularized logic to build a lean, maintainable, and reusable invoice component.
 
 Let's get started!
 
 ## Sketching the functionality
 
-In our previous articles, we have defined a [simplified data model]() for an invoice application, and we have built the [core logic]() for handling operations on an invoice. If you haven't checked these articles yet, now it is the time to do it.
+In our previous articles, we have defined a [simplified data model](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/#data-model) for an invoice application, and we have built the [core logic](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/#developing-the-invoice-module-with-tdd) for handling operations on an invoice. If you haven't checked these articles yet, now it is the time to do it.
 
 Today we are going to build a few components to render and manipulate an invoice.
 
@@ -121,7 +121,7 @@ export default class Invoice extends Vue {
 
 Our invoice model doesn't currently have the concept of Invoice Number or Invoice Due Date. It would be straightforward to add it to the invoice type and modify the invoice module, but to make this article simpler, we are just hard coding some values there for now.
 
-Notice how we are taking a `Types.Invoice` prop and are emitting `input` events whenever the invoice is changed. Now our modularized Invoice logic is paying off its price. Look how simple the code in our Invoice component is: it just ties the events from the underlying components to the Invoice module.
+Notice how we are taking a prop of type `Types.Invoice` and are emitting `input` events whenever the invoice is changed. Now our modularized Invoice logic is paying off its price. Look how simple the code in our Invoice component is: it just ties the events from the underlying components to the Invoice module.
 
 We are using the `Emit` decorator from `vue-property-decorator`. It will emit the return value of the decorated function, which makes this code really concise. If you are not used to it, it is possible to achieve the same thing by doing:
 
@@ -293,9 +293,9 @@ We are using a `SimpleModal` component here to encapsulate the modal behavior. I
 
 This component has three fields to define a LineItem: the product field, encapsulated in the `ProductSelector` component, and two input fields for the `rate` and `quantity`.
 
-One thing to notice here is how we are making a local copy of the passed-in prop. As we have `Ok` and `Cancel` buttons, we cannot update the prop itself when a field is changed, because the user might hit cancel. So we do a deep copy of the `item` prop into the `localLineItem` object anytime the `item` changes.
+One thing to notice here is how we are making a local copy of the passed-in prop. As we have `Ok` and `Cancel` buttons, we cannot update the prop itself when a field is changed, because the user might hit cancel. So we do a deep copy of the `item` prop into the `localLineItem` object anytime the `item` changes and emit the local line item when the user clicks `Ok`.
 
-Also, as the `rate` is a `Decimal` object, we had to wrap its value in a `getter` and `setter`, so that we can transform it to and from a number, that is what the `input` html element can handle. If you have several places in your application where you need to handle Decimals, you might want to create a `DecimalInput` component that takes Decimals in and emits Decimals, so that you can use `v-model` directly with your Decimal object.
+Also, as the `rate` is a `Decimal` object, we had to wrap its value in a `getter` and `setter`, so that we can transform it to and from a number, that is what the `input` html element can handle. If you have several places in your application where you need to handle Decimals, you might want to create a `DecimalInput` component that takes Decimals in and emits Decimals out, so that you can use `v-model` directly with your Decimal object.
 
 ### ProductSelector
 
