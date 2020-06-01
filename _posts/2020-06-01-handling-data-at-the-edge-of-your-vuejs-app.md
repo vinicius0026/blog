@@ -43,7 +43,7 @@ We will expand the Invoice model we have discussed in previous articles and will
 
 ## Reviewing the Type Definitions
 
-In a [previous article](), we have defined our Invoice types as:
+In a [previous article](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/), we have defined our Invoice types as:
 
 ```typescript
 // src/types/invoice.ts
@@ -85,7 +85,7 @@ Now we want to build a service layer that allows us to do CRUD operations in the
 
 ## The Service Layer
 
-As we did when building the [core logic]() of our app, we will use the Module pattern to build our service layer. We can scaffold it like this:
+As we did when building the [core logic](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/) of our app, we will use the Module pattern to build our service layer. We can scaffold it like this:
 
 ```typescript
 // src/services/invoice.ts
@@ -133,7 +133,7 @@ With our application accessing external data exclusively via this service, we ca
 
 ## Parsing the API response
 
-In the [last article](), we introduced a `Partial` type, for when the object didn't have all the required attributes of a type. We can reuse it here to treat the data coming from the API as a possibly partial object of the type we want.
+In the [last article](https://viniciusteixeira.tk/2020/05/25/data-driven-components/), we introduced a `Partial` type, for when the object didn't have all the required attributes of a type. We can reuse it here to treat the data coming from the API as a possibly partial object of the type we want.
 
 The data provided by the API is likely to have some of the same fields (ideally all) as our front-end type definitions. But to be safe, we will assume any of the fields might be missing, using the `Partial` type to wrap all of the data coming from the API.
 
@@ -307,7 +307,7 @@ If we need to convert back from the app `Product` type to the API's `ApiProduct`
 
 In the examples we built in this article, we are ignoring the fact that the API didn't send a full object of the expected type. Sometimes that might be all we need to do. But on most occasions, we should be notified about and fix our API (if that's something we control) or our parsing functions.
 
-The `parse` functions we wrote are the perfect place to do that. If you are using something like [Sentry]() to collect front-end exceptions, you can raise an exception if there is any missing field, which will be caught by Sentry. Or you can use the [Capture Console]() integration and log an error and return a valid default (like we did in the examples) so that the application is still usable, even if there's some data missing.
+The `parse` functions we wrote are the perfect place to do that. If you are using something like [Sentry](https://sentry.io/) to collect front-end exceptions, you can raise an exception if there is any missing field, which will be caught by Sentry. Or you can use the [Capture Console](https://docs.sentry.io/platforms/javascript/#captureconsole) integration and log an error and return a valid default (like we did in the examples) so that the application is still usable, even if there's some data missing.
 
 ```typescript
 function parse(data?: Types.Partial<Types.User>): Types.User {
