@@ -312,7 +312,7 @@ The `parse` functions we wrote are the perfect place to do that. If you are usin
 ```typescript
 function parse(data?: Types.Partial<Types.User>): Types.User {
   return {
-    name: data!.name || (console.error('Missing user.name in API response') || ""),
+    name: data!.name || (console.warn('Missing user.name in API response') || ""),
     avatar: data!.avatar || "",
   }
 }
