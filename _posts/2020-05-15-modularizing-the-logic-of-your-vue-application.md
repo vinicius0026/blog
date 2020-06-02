@@ -17,7 +17,7 @@ This is the third article in our Structuring Large Vue.js Applications series. H
 - [Adopting TypeScript in your Vue.js Application in a sane way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) _published May 14, 2020_
 - [Modularizing the logic of your Vue.js Application]() _published May 15, 2020_ - **You are here**
 - [Data-driven components](https://viniciusteixeira.tk/2020/05/25/data-driven-components/) _published May 25, 2020_
-- <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
+- [Handling data at the edge of your Vue.js application](https://viniciusteixeira.tk/2020/06/01/handling-data-at-the-edge-of-your-vuejs-app/) _published June 1st, 2020_
 ---
 
 As an application grows, it is, unfortunately, common to see poorly designed components, with a lot of duplicate code, business logic scattered across methods, complex logic embedded in the templates, and so on. The components become large, brittle, and hard to change and test. The application becomes increasingly hard to evolve, sometimes reaching a point where the developers are eager to start from scratch, preferring a costly and risky rewrite than handling the current application state.

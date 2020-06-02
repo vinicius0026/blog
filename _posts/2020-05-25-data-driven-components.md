@@ -17,7 +17,7 @@ This is the fourth article in our Structuring Large Vue.js Applications series. 
 - [Adopting TypeScript in your Vue.js Application in a sane way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) _published May 14, 2020_
 - [Modularizing the logic of your Vue.js Application](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/) _published May 15, 2020_
 - [Data-driven components]() _published May 25, 2020_ - **You are here**
-- <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
+- [Handling data at the edge of your Vue.js application](https://viniciusteixeira.tk/2020/06/01/handling-data-at-the-edge-of-your-vuejs-app/) _published June 1st, 2020_
 ---
 
 In the previous articles, we discussed how to [adopt TypeScript in a lean way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) and how to [modularize the application logic](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/) in Vue.js applications. But in both articles, we barely touched Vue components. It's time to change that. In this article, we will pick up where we left and will leverage our Type definitions and our modularized logic to build a lean, maintainable, and reusable invoice component.

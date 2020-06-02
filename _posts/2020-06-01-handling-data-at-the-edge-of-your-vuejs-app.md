@@ -18,7 +18,7 @@ This is the fifth article in our Structuring Large Vue.js Applications series. H
 - [Adopting TypeScript in your Vue.js Application in a sane way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) _published May 14, 2020_
 - [Modularizing the logic of your Vue.js Application](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/) _published May 15, 2020_
 - [Data-driven components](https://viniciusteixeira.tk/2020/05/25/data-driven-components/) _published May 25, 2020_
-- [Handling data at the edge of your Vue.js application]() _published May 28, 2020_ - **You are here**
+- [Handling data at the edge of your Vue.js application]() _published June 1st, 2020_ - **You are here**
 ---
 
 In the previous articles in this series, we have dealt only with data that was local to the application, meaning that our data's entire life cycle was under control. The vast majority of the applications will have some interface with an external service, the app's REST API, more often than not.

@@ -17,6 +17,6 @@ These are the subjects I'm planning on discussing in this series:
 - [Adopting TypeScript in your Vue.js Application in a sane way](https://viniciusteixeira.tk/2020/05/14/adopting-typescript-in-your-vue-application-in-a-sane-way/) _published May 14, 2020_
 - [Modularizing the logic of your Vue.js Application](https://viniciusteixeira.tk/2020/05/15/modularizing-the-logic-of-your-vue-application/) _published May 15, 2020_
 - [Data-driven components](https://viniciusteixeira.tk/2020/05/25/data-driven-components/) _published May 25, 2020_
-- <ins>Using services to establish a clear boundary in your Vue.js application</ins> _coming soon_
+- [Handling data at the edge of your Vue.js application](https://viniciusteixeira.tk/2020/06/01/handling-data-at-the-edge-of-your-vuejs-app/) _published June 1st, 2020_
 
 So stay tuned and let me know if there are any other subjects related to this topic you would like me to address.
