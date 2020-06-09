@@ -36,7 +36,19 @@ Still, I firmly believe Hapi.js is one of (if not the) best options out there. L
 
 Despite of not figuring on the top of popularity ranks for Node.js frameworks, Hapi has an incredible ecosystem of modules that make developing web applications a breeze. Many of these modules are maintained by core contributors to Hapi itself and are part of the Hapi Github organization and Npm's Hapi namespace.
 
+This ecosystem makes it much easier when adding a new functionality to you application. Are you serving static files? [Inert](https://github.com/hapijs/inert) will do it for you. Need to add websockets functionality, [Nes](https://github.com/hapijs/nes) gets you covered. It's time to add some caching to your app? [Catbox](https://github.com/hapijs/catbox) will help you, regardless if you are using [in-memory](https://github.com/hapijs/catbox-memory), [redis](https://github.com/hapijs/catbox-redis) or [memcached](https://github.com/hapijs/catbox-memcached) cache.
+
+In my experience with other frameworks, just picking a library to add some functionality can take from a day to full weeks of testing and comparing competing packages. In Hapi it is the contrary - it is very common to find what you need in a well-maintained plugin.
+
 ### Sane request lifecycle
+
+Some of the most popular Node.js frameworks out there use the [middleware](https://dzone.com/articles/understanding-middleware-pattern-in-expressjs) pattern for handling the requests. The middleware pattern can become a problem in mid to large sized apps for the following reasons:
+
+- Hard to tell which middlewares will be executed for a given request
+- Order of middleware registration can break the application
+- Hard to tell where a property or method is being set or modified on the request object.
+
+Hapi has a completely different approach to this. It has a well defined [request lifecycle](https://hapi.dev/api/?v=19.1.1#request-lifecycle), with pre-defined steps (that are configurable at the server or route level) that are always run in the same order. And if you need to add some functionality exactly at some stage of the flow, there are explicit extension points that allow intercepting and handling the request exactly where needed. This makes the request flow easier to understand and debug.
 
 ### Up to date
 
