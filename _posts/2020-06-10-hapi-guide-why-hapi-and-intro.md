@@ -48,10 +48,20 @@ Some of the most popular Node.js frameworks out there use the [middleware](https
 - Order of middleware registration can break the application
 - Hard to tell where a property or method is being set or modified on the request object.
 
-Hapi has a completely different approach to this. It has a well defined [request lifecycle](https://hapi.dev/api/?v=19.1.1#request-lifecycle), with pre-defined steps (that are configurable at the server or route level) that are always run in the same order. And if you need to add some functionality exactly at some stage of the flow, there are explicit extension points that allow intercepting and handling the request exactly where needed. This makes the request flow easier to understand and debug.
+This [gist](https://gist.github.com/nfroidure/3c0a5858518663be186a1a64d160ee31) exemplifies these issues concisely.
+
+Hapi has a completely different approach to this. It has a well defined [request lifecycle](https://hapi.dev/api/?v=19.1.1#request-lifecycle), with pre-defined steps (that are configurable at the server or route level) that are always run in the same order. And if you need to add some functionality exactly at some stage of the lifecycle, there are explicit extension points that allow intercepting and handling the request exactly where needed. This makes the request flow easier to understand and debug.
 
 ### Up to date
 
+Since Hapi's reached 1.0 in 2013 a lot has happened in JavaScript and Node.js ecosystems. And Hapi has not lagged behind in adopting new trends and patters, even when that meant a complete re-write of the framework.
+
+The latest rewrite (for version 17) was made to adopt `async/await` constructs that had landed in Node.js 8.
+
+Another recent addition to the lib that shows how it keeps up to date with current trends were the TypeScript definition files that were added to most (if not all) of the main modules, including of course the main Hapi module.
+
 ### A word on performance benchmarks
+
+
 
 ## Intro to Hapi.js
