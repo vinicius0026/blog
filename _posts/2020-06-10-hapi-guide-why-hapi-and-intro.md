@@ -36,9 +36,9 @@ Still, I firmly believe Hapi.js is one of (if not the) best options out there. L
 
 Despite of not figuring on the top of popularity ranks for Node.js frameworks, Hapi has an incredible ecosystem of modules that make developing web applications a breeze. Many of these modules are maintained by core contributors to Hapi itself and are part of the Hapi Github organization and Npm's Hapi namespace.
 
-This ecosystem makes it much easier when adding a new functionality to you application. Are you serving static files? [Inert](https://github.com/hapijs/inert) will do it for you. Need to add websockets functionality, [Nes](https://github.com/hapijs/nes) gets you covered. It's time to add some caching to your app? [Catbox](https://github.com/hapijs/catbox) will help you, regardless if you are using [in-memory](https://github.com/hapijs/catbox-memory), [redis](https://github.com/hapijs/catbox-redis) or [memcached](https://github.com/hapijs/catbox-memcached) cache.
+This ecosystem makes it much easier when adding a new functionality to you application. Are you serving static files? [Inert](https://github.com/hapijs/inert) will do it for you. Need to add websockets functionality? [Nes](https://github.com/hapijs/nes) gets you covered. Do you need to add caching to your app? [Catbox](https://github.com/hapijs/catbox) will help you, regardless if you are using [in-memory](https://github.com/hapijs/catbox-memory), [redis](https://github.com/hapijs/catbox-redis) or [memcached](https://github.com/hapijs/catbox-memcached) cache.
 
-In my experience with other frameworks, just picking a library to add some functionality can take from a day to full weeks of testing and comparing competing packages. In Hapi it is the contrary - it is very common to find what you need in a well-maintained plugin.
+In my experience with other frameworks, just picking a library to add some functionality can take from a day to full weeks of testing and comparing competing packages. In Hapi it is the contrary - it is very common to find what you need in a well-maintained core plugin.
 
 ### Sane request lifecycle
 
@@ -54,11 +54,17 @@ Hapi has a completely different approach to this. It has a well defined [request
 
 ### Up to date
 
-Since Hapi has reached 1.0 in 2013 a lot has happened in JavaScript and Node.js ecosystems. And Hapi has not lagged behind in adopting new trends and patterns, even when that meant a complete re-write of the framework.
+Since Hapi has reached 1.0 in 2013 a lot has happened in JavaScript and Node.js ecosystems. And Hapi has not lagged behind in adopting new trends and patterns, even when that meant a complete rewrite of the framework.
 
-The latest rewrite (for version 17) was made to adopt `async/await` constructs that had landed in Node.js 8.
+The [latest rewrite](https://github.com/hapijs/hapi/issues/3658) (for version 17) was made to adopt `async/await` constructs that had landed in Node.js 8.
 
 Another recent addition to the lib that shows how it keeps up to date with current trends were the TypeScript definition files that were added to most (if not all) of the main modules, including of course the main Hapi module.
+
+### Quick response to issues
+
+For a project the size of Hapi's, it is incredible how low the number of open issues there are in the Hapi. At the time of this writing, there are only 5 open tickets on the [main repo](https://github.com/hapijs/hapi/issues), 25 on [Joi's repo](https://github.com/hapijs/joi/issues) (most support related) and 3 on [Nes repo](https://github.com/hapijs/nes/issues).
+
+If you open a ticket in any of the modules maintained under the Hapi organization in Github it is very likely that you will get an answer very quickly.
 
 ### A word on performance benchmarks
 
@@ -154,11 +160,13 @@ process.on("unhandledRejection", err => {
 init()
 ```
 
-Now if we run `npm run tsc` the code will be complied and put under the `./build` folder. And we can start it with `node ./build/server.js`.
+The code here is pretty straightforward. We are creating a server with `Hapi.server` and registering a route on the created server with the `route` method. We then start the server with the `start` method.
 
-On development, we don't want to have to compile and start the server like that every time we change something on our app. Let's fix that.
+Now if we run `npm run tsc` the code will be compiled and put under the `./build` folder. We can start it with `node ./build/server.js`.
 
-To get rid of the compilation step, we can use [ts-node](https://github.com/TypeStrong/ts-node) that will compile and run the TypeScript files for us. And to avoid having to restart the server every time we change something, we will use [nodemon](https://nodemon.io/). We will also add `cross-env` so it is easy to pass ENV VARS to our scripts, regardless of the OS we are using.
+At development time, having to compile and restart the server every time we change something on our app will quickly become a hassle. Let's fix that.
+
+To get rid of the compilation step, we can use [ts-node](https://github.com/TypeStrong/ts-node) that will compile and run the TypeScript files for us. And to avoid having to manually restart the server every time we change something, we will use [nodemon](https://nodemon.io/). We will also add `cross-env` so it is easy to pass environment variables to our scripts, regardless of the OS we are using.
 
 ```shell
 $ npm i -D ts-node nodemon cross-env
@@ -181,6 +189,14 @@ Don't get carried away by the details of the start script, we are only telling `
 $ npm start
 ```
 
+You should see something similar to this:
+
+![Starting the dev server](../static/images/hapi-guide-why-hapi-and-intro/start-server.png)
+
 Now if you visit `http://localhost:3000` on your browser you should see the string `Hello World!` from our controller. Any changes to our `server.ts` should restart the server.
 
 ## Wrapping up
+
+We have explored a few arguments on why Hapi might be a good choice of framework for a Node.js project.
+
+We also gave a very brief introduction to it, while rebuilding the hello world example with TypeScript. In upcoming articles we will expand this initial base we setup here to explore Hapi.
